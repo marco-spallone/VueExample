@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import TableComponent from "@/components/TableComponent.vue";
+import TableComponent from "@/components/UsersTableComponent.vue";
 import {useMainStore} from "@/store/modules/users";
 
 export default {
@@ -16,7 +16,7 @@ export default {
   },
   data(){
     return{
-      items: useMainStore().items,
+      items: JSON.parse(localStorage.getItem('users')),
       headers: useMainStore().mapHeaderTable
     }
   }

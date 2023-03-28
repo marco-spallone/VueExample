@@ -1,19 +1,13 @@
 <template>
   <Suspense>
-    <HomeView></HomeView>
+    <RouterView></RouterView>
   </Suspense>
-  <RouterView></RouterView>
 </template>
 
 <script>
-
-import HomeView from "@/views/HomeView.vue";
-
 export default {
   name: 'App',
-  components: {
-    HomeView
-  }
+  components: {}
 }
 </script>
 

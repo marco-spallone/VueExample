@@ -15,7 +15,10 @@ export const useMainStore = defineStore('mainStore', {
     actions:{
         async getAllItems(){
             await axios.get('https://jsonplaceholder.typicode.com/users')
-                .then(response => this.items=response.data)
+                .then(response => {
+                    this.items=response.data;
+                    localStorage.setItem('users', JSON.stringify(response.data));
+                })
                 .catch(err => console.log(err))
         }
     }

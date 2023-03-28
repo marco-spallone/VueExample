@@ -6,14 +6,10 @@
 
 <script>
 export default {
-  name: "TableComponent",
-  props:{
+  name: "AlbumsTableComponent",
+  props: {
     items:Array,
     headers: Array
-  },
-  mounted() {
-    console.log(this.items)
-    console.log(this.mapHeaderTable)
   }
 }
 </script>
