@@ -11,9 +11,13 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import Dialog from "primevue/dialog";
+import InputText from 'primevue/inputtext';
 
 createApp(App)
     .component('Button', Button)
     .component('DataTable', DataTable)
     .component('Column', Column)
+    .component('Dialog', Dialog)
+    .component('InputText', InputText)
     .use(VueAxios, axios).use(createPinia()).use(PrimeVue).use(router).mount('#app')

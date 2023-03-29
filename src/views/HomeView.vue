@@ -4,7 +4,7 @@
 
 <script>
 import TableComponent from "@/components/UsersTableComponent.vue";
-import {useMainStore} from "@/store/modules/users";
+import {useMainStore} from "@/store";
 
 export default {
   name: "HomeView",
@@ -12,7 +12,7 @@ export default {
     TableComponent
   },
   beforeMount() {
-    useMainStore().getAllItems()
+    useMainStore().getAllUsers()
   },
   data(){
     return{
