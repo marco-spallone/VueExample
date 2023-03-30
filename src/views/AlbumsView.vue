@@ -1,6 +1,7 @@
 <template>
   <div v-if="loaded">
-    <AlbumsTableComponent :items="items" :headers="headers"></AlbumsTableComponent>
+    <h1>Album</h1>
+    <TableComponent :items="items" :headers="headers" :page="page"></TableComponent>
   </div>
   <div v-else>
     <p>CARICAMENTO...</p>
@@ -8,12 +9,12 @@
 </template>
 
 <script>
-import AlbumsTableComponent from '@/components/AlbumsTableComponent.vue';
+import TableComponent from "@/components/TableComponent.vue";
 import axios from "axios";
 
 export default {
   name: "AlbumsView",
-  components: {AlbumsTableComponent},
+  components: {TableComponent},
   data() {
     return {
       id: null,
@@ -21,7 +22,8 @@ export default {
       loaded: false,
       headers: [
           {field:"title", header:"Titolo"}
-      ]
+      ],
+      page: "albums"
     }
   },
   beforeMount() {

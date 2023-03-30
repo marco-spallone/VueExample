@@ -1,9 +1,10 @@
 <template>
-  <TableComponent :items="items" :headers="headers"></TableComponent>
+  <h1>Utenti</h1>
+  <TableComponent :items="items" :headers="headers" :page="page"></TableComponent>
 </template>
 
 <script>
-import TableComponent from "@/components/UsersTableComponent.vue";
+import TableComponent from "@/components/TableComponent.vue";
 import {useMainStore} from "@/store";
 
 export default {
@@ -17,7 +18,8 @@ export default {
   data(){
     return{
       items: JSON.parse(localStorage.getItem('users')),
-      headers: useMainStore().mapHeaderTable
+      headers: useMainStore().mapHeaderTable,
+      page:"home"
     }
   }
 }
