@@ -10,34 +10,24 @@
 
 <script>
 import TableComponent from "@/components/TableComponent.vue";
-import axios from "axios";
+import {albumsStore} from "@/store/modules/albums";
 
 export default {
   name: "AlbumsView",
   components: {TableComponent},
+  beforeMount() {
+    albumsStore().getAllAlbums().then(() => {
+      this.items=albumsStore().albums.filter(album => album.userId==this.$route.params.id);
+      this.loaded=true;
+    })
+  },
   data() {
     return {
       id: null,
-      items: JSON.parse(localStorage.getItem('albums')).filter(item => item.userId==this.id),
+      items: albumsStore().albums,
       loaded: false,
-      headers: [
-          {field:"title", header:"Titolo"}
-      ],
+      headers: albumsStore().mapHeaderTable,
       page: "albums"
-    }
-  },
-  beforeMount() {
-    this.getAlbums(this.$route.params.id);
-  },
-  methods:{
-    getAlbums(id){
-      axios.get('https://jsonplaceholder.typicode.com/albums')
-          .then(response => {
-            this.items = response.data.filter(data => data.userId==id);
-            localStorage.setItem('albums', JSON.stringify(this.items));
-            this.loaded=true;
-          })
-          .catch(err => console.log(err))
     }
   }
 }

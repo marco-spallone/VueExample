@@ -1,32 +1,18 @@
 <template>
-  <Button icon="pi pi-plus" rounded id="addButton" @click="add"/>
+  <Button icon="pi pi-plus" rounded id="addButton" @click="$emit('event', null, null, 'ADD')"/>
   <DataTable v-model:selection="selectedItem" :value="items" edit-mode="row" selection-mode="single" dataKey="id" :meta-key-selection="false">
-    <Column v-for="col of headers" :key="col.field" :field="col.field" :header="col.header">
-    </Column>
-    <Column header="Modifica" :row-editor="true">
-      <template #body="{ data, index }">
-        <Button type="button" icon="pi pi-user-edit" severity="warning" text rounded @click="edit(data, index)" />
-      </template>
-    </Column>
-    <Column header="Elimina" :row-editor="true">
-      <template #body="{ data, index }">
-        <Button type="button" icon="pi pi-trash" severity="danger" text rounded @click="remove(data, index)" />
+    <Column v-for="col of headers" :key="col.field" :field="col.field" :header="col.header"></Column>
+    <Column v-for="act of operations" :key="act.action" :field="act.action" :header="act.label">
+      <template #body="{data, index}">
+        <div v-if="act.action==='EDIT'">
+          <Button icon="pi pi-user-edit" severity="warning" text rounded @click="$emit('event', data, index, act.action)"></Button>
+        </div>
+        <div v-if="act.action==='DELETE'">
+          <Button icon="pi pi-trash" severity="danger" text rounded @click="$emit('event', data, index, act.action)"></Button>
+        </div>
       </template>
     </Column>
   </DataTable>
-  <Dialog v-model:visible="showEditUser" modal header="Modifica utente" :style="{ width: '30vw' }">
-    <form @submit="onSubmit" @submit.prevent="onSubmit">
-      <div>
-        <label for="name">Nome:</label>
-        <InputText id="name" v-model="name" type="text" :placeholder="name"></InputText>
-      </div>
-      <div>
-        <label for="email">E-mail:</label>
-        <InputText id="email" v-model="email" type="email" :placeholder="email"></InputText>
-      </div>
-      <Button type="submit" label="Conferma" id="submitButton"></Button>
-    </form>
-  </Dialog>
   <Dialog v-model:visible="showEditAlbum" modal header="Modifica album" :style="{ width: '30vw' }">
     <form @submit="onSubmit" @submit.prevent="onSubmit">
       <div>
@@ -44,7 +30,8 @@ export default {
   props:{
     items:Array,
     headers: Array,
-    page:String
+    page:String,
+    operations:Array
   },
   data(){
     return{
@@ -71,16 +58,6 @@ export default {
         this.showEditAlbum=true;
       }
     },
-    onSubmit(){
-      if(this.page==="home"){
-        console.log(this.name, this.email);
-        this.showEditUser=false;
-      } else if(this.page==="albums"){
-        console.log(this.title);
-        this.showEditAlbum=false;
-      }
-
-    },
     edit(data){
       if(this.page==="home"){
         this.name=data.name
@@ -90,10 +67,6 @@ export default {
         this.title=data.title
         this.showEditAlbum=true;
       }
-
-    },
-    remove(data, index){
-      console.log(data, index)
     }
   }
 }
