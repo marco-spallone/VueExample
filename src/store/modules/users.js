@@ -19,7 +19,6 @@ export const usersStore = defineStore('usersStore', {
         async getAllUsers() {
             await usersService.getUsers().then(res => {
                 this.users=res;
-
             });
         },
         getUserById(id){
@@ -33,16 +32,16 @@ export const usersStore = defineStore('usersStore', {
         },
         updateUser(user) {
             if(user.id==null){
-                console.log('add')
                 user.id=this.users.length+1;
                 this.users.push(user);
             } else {
-                console.log('edit')
-                this.users.find(item => {
-                    if (item.id == user.id) {
-                        item = user;
+                this.users.find((item, index) => {
+                    if(item.id===user.id){
+                        this.users[index]=user;
                     }
                 })
+                console.log(this.users);
+
             }
         },
         deleteUser(user, index) {

@@ -1,6 +1,7 @@
 <template>
   <Button icon="pi pi-plus" rounded id="addButton" @click="$emit('event', null, null, 'ADD')"/>
-  <DataTable v-model:selection="selectedItem" :value="items" edit-mode="row" selection-mode="single" dataKey="id" :meta-key-selection="false">
+  <DataTable v-model:selection="selectedItem" :value="items" edit-mode="row" selection-mode="single" dataKey="id" :meta-key-selection="false"
+    @rowSelect="onRowSelect">
     <Column v-for="col of headers" :key="col.field" :field="col.field" :header="col.header"></Column>
     <Column v-for="act of operations" :key="act.action" :field="act.action" :header="act.label">
       <template #body="{data, index}">
@@ -13,15 +14,6 @@
       </template>
     </Column>
   </DataTable>
-  <Dialog v-model:visible="showEditAlbum" modal header="Modifica album" :style="{ width: '30vw' }">
-    <form @submit="onSubmit" @submit.prevent="onSubmit">
-      <div>
-        <label for="title">Nome:</label>
-        <InputText id="title" v-model="title" type="text" :placeholder="title"></InputText>
-      </div>
-      <Button type="submit" label="Conferma" id="submitButton"></Button>
-    </form>
-  </Dialog>
 </template>
 
 <script>
@@ -46,7 +38,9 @@ export default {
   },
   methods:{
     onRowSelect(){
-      this.$router.push(`/albums/${this.selectedItem.id}`);
+      if(this.page==="home"){
+        this.$router.push(`/albums/${this.selectedItem.id}`);
+      }
     },
     add(){
       if(this.page==="home"){

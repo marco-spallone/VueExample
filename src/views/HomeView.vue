@@ -2,7 +2,7 @@
   <h1>Utenti</h1>
   <TableComponent :items="items" :headers="headers" :page="page" :operations="operations" @event="event"></TableComponent>
   <Dialog v-model:visible="showEditUser" modal header="Modifica utente" :style="{ width: '30vw' }">
-    <form @submit="onSubmit" @submit.prevent="onSubmit">
+    <form>
       <div>
         <label for="name">Nome:</label>
         <InputText id="name" v-model="name" type="text" :placeholder="name"></InputText>
@@ -11,7 +11,7 @@
         <label for="email">E-mail:</label>
         <InputText id="email" v-model="email" type="email" :placeholder="email"></InputText>
       </div>
-      <Button type="submit" label="Conferma" id="submitButton"></Button>
+      <Button type="button" label="Conferma" id="submitButton" @click="onSubmit"></Button>
     </form>
   </Dialog>
 </template>
@@ -67,6 +67,8 @@ export default {
         usersStore().updateUser(user);
       } else {
         let user = usersStore().getUserById(this.id);
+        user.name=this.name;
+        user.email=this.email;
         usersStore().updateUser(user)
       }
       this.id=null;
@@ -77,10 +79,6 @@ export default {
 </script>
 
 <style scoped>
-#addButton{
-  margin-bottom:30px;
-  margin-top:30px;
-}
 #submitButton{
   margin-top:25px;
 }
